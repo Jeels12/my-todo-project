@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>To-Do Page</title>
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const itemName = document.getElementById('itemName').value;
+            const itemDescription = document.getElementById('itemDescription').value;
+            const itemID = document.getElementById('itemID').value;
+            const itemUUID = document.getElementById('itemUUID').value;
+            const itemHash = document.getElementById('itemHash').value;
+
+            const response = await fetch('/submittodoitem', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    itemName,
+                    itemDescription,
+                    itemID,
+                    itemUUID,
+                    itemHash
+                })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            document.getElementById('todoForm').reset();
+        }
+    </script>
+</head>
+<body>
+    <h1>To-Do Form</h1>
+    <form id="todoForm" onsubmit="submitForm(event)">
+        <label>Item Name: <input type="text" id="itemName" required /></label><br/><br/>
+        <label>Item Description: <input type="text" id="itemDescription" required /></label><br/><br/>
+        <label>Item ID: <input type="text" id="itemID" /></label><br/><br/>
+        <label>Item UUID: <input type="text" id="itemUUID" /></label><br/><br/>
+        <label>Item Hash: <input type="text" id="itemHash" /></label><br/><br/>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
